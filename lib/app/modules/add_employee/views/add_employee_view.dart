@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:presence_app/app/modules/add_employee/controllers/employee_controller.dart';
+import 'package:presence_app/app/widgets/input_widget.dart';
 
 import '../controllers/add_employee_controller.dart';
 
@@ -8,14 +10,66 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff386641),
       appBar: AppBar(
-        title: Text('AddEmployeeView'),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text('Add Employee', style: TextStyle(color: Colors.white)),
         centerTitle: true,
+        backgroundColor: const Color(0xff386641),
       ),
-      body: Center(
-        child: Text(
-          'AddEmployeeView is working',
-          style: TextStyle(fontSize: 20),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+          ),
+        ),
+        child: ListView(
+          children: [
+            const SizedBox(height: 50),
+            InputWidget(
+              label: "NIP",
+              icon: const Icon(Icons.badge),
+              controller: controller.nipController,
+              textInputType: TextInputType.number,
+            ),
+            const SizedBox(height: 20),
+            InputWidget(
+              label: "Email",
+              icon: const Icon(Icons.alternate_email),
+              controller: controller.emailController,
+              textInputType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+            InputWidget(
+              label: "Nama",
+              icon: const Icon(Icons.person),
+              controller: controller.nameController,
+              textInputType: TextInputType.text,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Get.find<EmployeeController>().addEmployee();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff386641),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                "Tambah",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:presence_app/app/modules/add_employee/controllers/add_employee_controller.dart';
@@ -7,33 +8,54 @@ class EmployeeController extends GetxController {
       Get.find<AddEmployeeController>();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void showSnackbar(String title, String message) {
     Get.snackbar(title, message, duration: const Duration(milliseconds: 1500));
   }
 
   void addEmployee() async {
-    try {
-      final credential = await auth.createUserWithEmailAndPassword(
-        email: addEmployeeController.emailController.text,
-        password: "password",
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        showSnackbar("Terjadi Kesalahan", "The password provided is too weak.");
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        showSnackbar(
-          "Terjadi Kesalahan",
-          "The account already exists for that email.",
+    if (addEmployeeController.nipController.text.isNotEmpty &&
+        addEmployeeController.emailController.text.isNotEmpty &&
+        addEmployeeController.nameController.text.isNotEmpty) {
+      try {
+        final credential = await auth.createUserWithEmailAndPassword(
+          email: addEmployeeController.emailController.text,
+          password: "password",
         );
-      } else if (e.code == "invalid-email") {
-        print("Format email tidak valid.");
-        showSnackbar("Terjadi Kesalahan", "TFormat email tidak valid.");
+
+        if (credential.user != null) {
+          String uid = credential.user!.uid;
+
+          await firestore.collection("employees").add({
+            "nip": addEmployeeController.nipController.text,
+            "email": addEmployeeController.emailController.text,
+            "name": addEmployeeController.nameController.text,
+            "password": "Password",
+            "created_At": DateTime.now().toIso8601String(),
+            "uid": uid,
+          });
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+          showSnackbar(
+            "Terjadi Kesalahan",
+            "The password provided is too weak.",
+          );
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+          showSnackbar(
+            "Terjadi Kesalahan",
+            "The account already exists for that email.",
+          );
+        } else if (e.code == "invalid-email") {
+          print("Format email tidak valid.");
+          showSnackbar("Terjadi Kesalahan", "TFormat email tidak valid.");
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
     }
   }
 }
