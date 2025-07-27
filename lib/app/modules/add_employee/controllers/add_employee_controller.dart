@@ -1,12 +1,18 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddEmployeeController extends GetxController {
   //TODO: Implement AddEmployeeController
+  late final TextEditingController nameController;
+  late final TextEditingController nipController;
+  late final TextEditingController emailController;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    nameController = TextEditingController();
+    nipController = TextEditingController();
+    emailController = TextEditingController();
   }
 
   @override
@@ -15,6 +21,10 @@ class AddEmployeeController extends GetxController {
   }
 
   @override
-  void onClose() {}
-  void increment() => count.value++;
+  void onClose() {
+    nameController.dispose();
+    nipController.dispose();
+    emailController.dispose();
+    super.onClose();
+  }
 }
