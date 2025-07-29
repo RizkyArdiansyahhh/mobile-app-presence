@@ -31,6 +31,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
           children: [
             const SizedBox(height: 50),
             InputWidget(
+              obscureText: false,
               label: "NIP",
               icon: const Icon(Icons.badge),
               controller: controller.nipController,
@@ -38,6 +39,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             ),
             const SizedBox(height: 20),
             InputWidget(
+              obscureText: false,
               label: "Email",
               icon: const Icon(Icons.alternate_email),
               controller: controller.emailController,
@@ -45,6 +47,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             ),
             const SizedBox(height: 20),
             InputWidget(
+              obscureText: false,
               label: "Nama",
               icon: const Icon(Icons.person),
               controller: controller.nameController,

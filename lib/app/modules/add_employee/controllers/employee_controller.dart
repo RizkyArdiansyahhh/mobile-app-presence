@@ -27,14 +27,31 @@ class EmployeeController extends GetxController {
         if (credential.user != null) {
           String uid = credential.user!.uid;
 
-          await firestore.collection("employees").add({
-            "nip": addEmployeeController.nipController.text,
-            "email": addEmployeeController.emailController.text,
-            "name": addEmployeeController.nameController.text,
-            "password": "Password",
-            "created_At": DateTime.now().toIso8601String(),
-            "uid": uid,
-          });
+          try {
+            await firestore.collection("employees").doc(uid).set({
+              "nip": addEmployeeController.nipController.text,
+              "email": addEmployeeController.emailController.text,
+              "name": addEmployeeController.nameController.text,
+              "password": "Password",
+              "created_At": DateTime.now().toIso8601String(),
+              "uid": uid,
+            });
+
+            await credential.user!.sendEmailVerification();
+            print(credential.user);
+
+            // await firestore.collection("employees").add({
+            //   "nip": addEmployeeController.nipController.text,
+            //   "email": addEmployeeController.emailController.text,
+            //   "name": addEmployeeController.nameController.text,
+            //   "password": "Password",
+            //   "created_At": DateTime.now().toIso8601String(),
+            //   "uid": uid,
+            // });
+            showSnackbar("Berhasil", "Karyawan Berhasil Ditambahkan");
+          } catch (e) {
+            showSnackbar("Terjadi kesalahan", "Kesalahan : $e");
+          }
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {

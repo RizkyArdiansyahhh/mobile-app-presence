@@ -6,9 +6,13 @@ abstract class Routes {
 
   static const HOME = _Paths.HOME;
   static const ADD_EMPLOYEE = _Paths.ADD_EMPLOYEE;
+  static const LOGIN = _Paths.LOGIN;
+  static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
 }
 
 abstract class _Paths {
   static const HOME = '/home';
   static const ADD_EMPLOYEE = '/add-employee';
+  static const LOGIN = '/login';
+  static const EMAIL_VERIFICATION = '/email-verification';
 }
