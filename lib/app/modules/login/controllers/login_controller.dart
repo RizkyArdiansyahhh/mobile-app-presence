@@ -32,6 +32,8 @@ class LoginController extends GetxController {
           Get.toNamed(Routes.EMAIL_VERIFICATION);
         } else if (passwordController.text == "password") {
           Get.toNamed(Routes.NEW_PASSWORD);
+        } else {
+          Get.offAllNamed(Routes.HOME);
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

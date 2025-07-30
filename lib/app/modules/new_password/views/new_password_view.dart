@@ -92,8 +92,9 @@ class NewPasswordView extends GetView<NewPasswordController> {
                           ),
                           actions: [
                             TextButton(
-                              onPressed: () =>
-                                  Get.toNamed(Routes.HOME), // menutup dialog
+                              onPressed: () => Get.offAllNamed(
+                                Routes.HOME,
+                              ), // menutup dialog
                               child: const Text("Continue"),
                             ),
                           ],
