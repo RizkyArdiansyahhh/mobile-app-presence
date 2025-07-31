@@ -56,7 +56,87 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Get.find<EmployeeController>().addEmployee();
+                // Get.find<EmployeeController>().addEmployee();
+                Get.bottomSheet(
+                  enableDrag: false,
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        height: 300,
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xffFFFFFF),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Validasi Admin",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            InputWidget(
+                              controller: controller.passAdminController,
+                              icon: const Icon(Icons.key),
+                              obscureText: true,
+                              label: "Password",
+                              textInputType: TextInputType.visiblePassword,
+                            ),
+                            const SizedBox(height: 15),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Get.find<EmployeeController>().addEmployee();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff386641),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Lanjutkan",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: -50,
+                        right: 0,
+                        child: Material(
+                          shape: const CircleBorder(),
+                          elevation: 4,
+                          color: Colors.white,
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.black,
+                              ),
+                              onPressed: () => Get.back(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff386641),

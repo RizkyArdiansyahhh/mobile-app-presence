@@ -6,6 +6,7 @@ class AddEmployeeController extends GetxController {
   late final TextEditingController nameController;
   late final TextEditingController nipController;
   late final TextEditingController emailController;
+  late final TextEditingController passAdminController;
 
   @override
   void onInit() {
@@ -13,6 +14,7 @@ class AddEmployeeController extends GetxController {
     nameController = TextEditingController();
     nipController = TextEditingController();
     emailController = TextEditingController();
+    passAdminController = TextEditingController();
   }
 
   @override
@@ -25,6 +27,7 @@ class AddEmployeeController extends GetxController {
     nameController.dispose();
     nipController.dispose();
     emailController.dispose();
+    passAdminController.dispose();
     super.onClose();
   }
 }
