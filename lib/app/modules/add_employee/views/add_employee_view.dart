@@ -93,8 +93,9 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Get.find<EmployeeController>().addEmployee();
+                                onPressed: () async {
+                                  await Get.find<EmployeeController>()
+                                      .addEmployee();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xff386641),

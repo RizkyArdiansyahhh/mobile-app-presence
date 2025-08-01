@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:presence_app/app/modules/add_employee/controllers/add_employee_controller.dart';
+import 'package:presence_app/app/routes/app_pages.dart';
 
 class EmployeeController extends GetxController {
   final AddEmployeeController addEmployeeController =
@@ -15,7 +16,7 @@ class EmployeeController extends GetxController {
     Get.snackbar(title, message, duration: const Duration(milliseconds: 1500));
   }
 
-  void addEmployee() async {
+  Future<void> addEmployee() async {
     if (addEmployeeController.passAdminController.text.isNotEmpty) {
       try {
         await auth.signInWithEmailAndPassword(
@@ -49,8 +50,10 @@ class EmployeeController extends GetxController {
                 print(credential.user);
 
                 showSnackbar("Berhasil", "Karyawan Berhasil Ditambahkan");
-                auth.signOut();
-                auth.signInWithEmailAndPassword(
+                Get.offAllNamed(Routes.HOME);
+
+                await auth.signOut();
+                await auth.signInWithEmailAndPassword(
                   email: adminCredential!.email!,
                   password: addEmployeeController.passAdminController.text,
                 );
