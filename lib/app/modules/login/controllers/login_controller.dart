@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:presence_app/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  var isLoading = false.obs;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
 
@@ -19,6 +20,7 @@ class LoginController extends GetxController {
   }
 
   void login() async {
+    isLoading.value = true;
     if (emailController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty) {
       try {
@@ -48,6 +50,8 @@ class LoginController extends GetxController {
         }
       } catch (e) {
         print("Terjadi kesalahan : $e");
+      } finally {
+        isLoading.value = false;
       }
     }
   }
