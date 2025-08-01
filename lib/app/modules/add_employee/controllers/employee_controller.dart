@@ -8,6 +8,7 @@ class EmployeeController extends GetxController {
   final AddEmployeeController addEmployeeController =
       Get.find<AddEmployeeController>();
 
+  final isLoading = false.obs;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User? adminCredential = FirebaseAuth.instance.currentUser;
@@ -17,6 +18,7 @@ class EmployeeController extends GetxController {
   }
 
   Future<void> addEmployee() async {
+    isLoading.value = true;
     if (addEmployeeController.passAdminController.text.isNotEmpty) {
       try {
         await auth.signInWithEmailAndPassword(
@@ -88,9 +90,12 @@ class EmployeeController extends GetxController {
         } else {
           showSnackbar("Terjadi kesalahan", e.code);
         }
+      } finally {
+        isLoading.value = false;
       }
     } else {
       showSnackbar("Terjadi kesalahan", "Password tidak boleh kosong");
+      return;
     }
   }
 }

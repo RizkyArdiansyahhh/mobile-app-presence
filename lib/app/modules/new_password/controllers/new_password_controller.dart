@@ -6,12 +6,14 @@ class NewPasswordController extends GetxController {
   late final TextEditingController newPasswordController;
   final FirebaseAuth auth = FirebaseAuth.instance;
   var visibilityPassword = false.obs;
+  final isLoading = false.obs;
 
   void changeVisibilityPassword() {
     visibilityPassword.value = !visibilityPassword.value;
   }
 
   Future<bool> updatePassword() async {
+    isLoading.value = true;
     final password = newPasswordController.text.trim();
     if (password.isNotEmpty && password.length >= 6) {
       if (password != "password") {
@@ -29,8 +31,11 @@ class NewPasswordController extends GetxController {
         } catch (e) {
           print("Terjadi Kesalahan : $e");
           return false;
+        } finally {
+          isLoading.value = false;
         }
       } else {
+        isLoading.value = false;
         Get.snackbar(
           "Terjadi kesalahan",
           "password tidak boleh default",
@@ -39,6 +44,7 @@ class NewPasswordController extends GetxController {
         return false;
       }
     } else {
+      isLoading.value = false;
       Get.snackbar(
         "Terjadi Kesalahan",
         "Password tidak boleh kosong dan minimal 6 karakter",

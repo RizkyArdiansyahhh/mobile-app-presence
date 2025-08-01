@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presence_app/app/widgets/input_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:presence_app/app/widgets/loading_progress_widget.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -160,29 +161,9 @@ class LoginView extends GetView<LoginController> {
             ),
           ),
           Obx(() {
-            return (controller.isLoading.value)
-                ? Container(
-                    width: Get.width,
-                    height: Get.height,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: .5),
-                    ),
-                    child: Center(
-                      child: SpinKitFoldingCube(
-                        size: 80,
-                        itemBuilder: (context, index) {
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: index.isEven
-                                  ? Color(0xffffffff)
-                                  : const Color(0xff386641),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink();
+            return LoadingProgressWidget(
+              controller: controller.isLoading.value,
+            );
           }),
         ],
       ),

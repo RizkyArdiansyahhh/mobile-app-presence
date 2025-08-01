@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presence_app/app/modules/add_employee/controllers/employee_controller.dart';
 import 'package:presence_app/app/widgets/input_widget.dart';
+import 'package:presence_app/app/widgets/loading_progress_widget.dart';
 
 import '../controllers/add_employee_controller.dart';
 
 class AddEmployeeView extends GetView<AddEmployeeController> {
+  final EmployeeController employeeController = Get.find<EmployeeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,8 +96,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  await Get.find<EmployeeController>()
-                                      .addEmployee();
+                                  await employeeController.addEmployee();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xff386641),
@@ -103,12 +104,23 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: Text(
-                                  "Lanjutkan",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Obx(() {
+                                    return (employeeController.isLoading.value)
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: const Color(0xffFFFFFF),
+                                            ),
+                                          )
+                                        : Text(
+                                            "Lanjutkan",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          );
+                                  }),
                                 ),
                               ),
                             ),
